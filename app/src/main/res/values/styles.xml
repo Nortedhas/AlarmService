@@ -1,0 +1,44 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- base application theme -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowBackground">@drawable/launch_screen</item>
+
+        <item name="colorControlNormal">#333333</item>
+        <item name="colorControlActivated">#F37E25</item>
+
+        <item name="android:colorEdgeEffect">@android:color/white</item>
+
+    </style>
+
+    <!-- Устанавливает в качестве фона drawable -->
+    <style name="AppTheme.Launcher" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/launch_screen</item>
+        <item name="colorPrimaryDark">@android:color/black</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+    <!-- active hint -->
+    <style name="MyHintText" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#F37E25</item>
+    </style>
+
+    <style name="ErrorText" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#FF00</item>
+    </style>
+
+    <style name="TitleToolbar" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">\
+        <item name="android:textColor">#FFF</item>
+    </style>
+
+    <!-- color borders viewHolder input layout outline-->
+    <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#F37E25</color>
+</resources>

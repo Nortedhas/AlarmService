@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "791907898927",
+    "firebase_url": "https://alarm-baa15.firebaseio.com",
+    "project_id": "alarm-baa15",
+    "storage_bucket": "alarm-baa15.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:791907898927:android:7bc0a4590a598d0e00d8da",
+        "android_client_info": {
+          "package_name": "com.ageone.alarm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "791907898927-m3fklvt0qvrku7uvvh0gjbcvrbae2tus.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHs8Q7u_FvCh6haNWIogGGRqx2M17tbWo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "791907898927-m3fklvt0qvrku7uvvh0gjbcvrbae2tus.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

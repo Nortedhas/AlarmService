@@ -1,0 +1,17 @@
+<!-- opacity=”opaque” - от черных миганий при переходе к теме -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" android:opacity="opaque">
+
+    <!-- Цвет фона -->
+    <item android:drawable="@android:color/white"/>
+
+    <item>
+
+        <bitmap
+            android:src="@drawable/first"
+            android:gravity="clip_vertical|fill_horizontal"
+
+        />
+
+    </item>
+
+</layer-list>
