@@ -18,9 +18,13 @@ import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import androidx.legacy.content.WakefulBroadcastReceiver
 import com.ageone.alarm.R
+import com.ageone.alarm.SCAG.DataBase
+import com.github.kittinunf.fuel.core.FuelManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.RemoteMessage
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.GlobalScope
@@ -52,24 +56,14 @@ class AppActivity: BaseActivity() {
 
 
 
-//        FuelManager.instance.basePath = DataBase.url
+        FuelManager.instance.basePath = "http://176.119.157.149/"
 
         verifyStoragePermissions(this)
 
         user.isAuthorized = false //TODO: change after add registration
         coordinator.setLaunchScreen()
 
-        GlobalScope.launch(Main){
-
-            router.layout.setOnApplyWindowInsetsListener { _, insets ->
-                utils.variable.statusBarHeight = insets.systemWindowInsetTop
-                insets
-            }
-
-            coordinator.start()
-        }
-
-        /*Promise<Unit> { resolve, _ ->
+        Promise<Unit> { resolve, _ ->
 
             router.layout.setOnApplyWindowInsetsListener { _, insets ->
                 utils.variable.statusBarHeight = insets.systemWindowInsetTop
@@ -79,24 +73,11 @@ class AppActivity: BaseActivity() {
             }
 
         }.then {
-            /*api.handshake {
-                Timber.i("Handshake out")
+            api.handshake {
+                webSocket.initialize()
                 coordinator.start()
-
-                FirebaseInstanceId.getInstance().instanceId
-                    .addOnCompleteListener(OnCompleteListener { task ->
-                        if (!task.isSuccessful) {
-                            Timber.i("fail")
-                            return@OnCompleteListener
-                        }
-
-                        // Get new Instance ID UserHandshake
-                        val token = task.result?.token ?: ""
-//                        DataBase.User.update(user.hashId, mapOf("fcmToken" to token))
-                    })
-            }*/
-            coordinator.start()
-        }*/
+            }
+        }
 
         setContentView(router.layout)
 
