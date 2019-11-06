@@ -2,7 +2,10 @@ package com.ageone.alarm.External.Extensions.Application
 
 import android.app.Activity
 import android.app.Application
+import android.content.Intent
 import android.os.Bundle
+import com.ageone.alarm.Application.Service.MusicService
+import com.ageone.alarm.Application.intent
 
 class FTActivityLifecycleCallbacks: Application.ActivityLifecycleCallbacks {
 
@@ -13,11 +16,13 @@ class FTActivityLifecycleCallbacks: Application.ActivityLifecycleCallbacks {
     }
 
     override fun onActivityResumed(activity: Activity?) {
-        currentActivity = activity
     }
 
     override fun onActivityStarted(activity: Activity?) {
         currentActivity = activity
+        currentActivity = activity
+        intent = Intent(activity, MusicService::class.java)
+        activity?.startService(intent)
     }
 
     override fun onActivityDestroyed(activity: Activity?) {
@@ -27,6 +32,8 @@ class FTActivityLifecycleCallbacks: Application.ActivityLifecycleCallbacks {
     }
 
     override fun onActivityStopped(activity: Activity?) {
+        intent = Intent(activity, MusicService::class.java)
+        activity?.stopService(intent)
     }
 
     override fun onActivityCreated(activity: Activity?, savedInstanceState: Bundle?) {

@@ -49,6 +49,9 @@
             <service android:name=".Application.Service.AlarmService">
             </service>
 
+            <service android:name=".Application.Service.MusicService">
+            </service>
+
         </application>
 
 </manifest>
