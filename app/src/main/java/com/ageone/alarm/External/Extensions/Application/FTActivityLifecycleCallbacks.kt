@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Application
 import android.content.Intent
 import android.os.Bundle
+import com.ageone.alarm.Application.Service.AlarmService
 import com.ageone.alarm.Application.Service.MusicService
 import com.ageone.alarm.Application.intent
 
@@ -26,6 +27,8 @@ class FTActivityLifecycleCallbacks: Application.ActivityLifecycleCallbacks {
     }
 
     override fun onActivityDestroyed(activity: Activity?) {
+        intent = Intent(activity, AlarmService::class.java)
+        activity?.startService(intent)
     }
 
     override fun onActivitySaveInstanceState(activity: Activity?, outState: Bundle?) {
