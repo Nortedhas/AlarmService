@@ -29,7 +29,7 @@ import com.example.ageone.Modules.Android6.rows.initialize
 import timber.log.Timber
 import yummypets.com.stevia.*
 
-class Android6View(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initModuleUI),  LifecycleObserver {
+class Android6View(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initModuleUI) {
 
     val viewModel = Android6ViewModel()
 
@@ -44,14 +44,6 @@ class Android6View(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(ini
         button.elevation = 3F.dp
         button.initialize()
         button
-    }
-
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    fun stopPlayer(){
-        if(mediaPlayer!!.isPlaying){
-            mediaPlayer?.stop()
-        }
     }
 
     val viewAdapter by lazy {
@@ -69,8 +61,6 @@ class Android6View(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(ini
 
         bodyTable.adapter = viewAdapter
 //        bodyTable.overScrollMode = View.OVER_SCROLL_NEVER
-
-        mediaPlayer = MediaPlayer.create(currentActivity?.applicationContext,R.raw.soad)
 
         button.setOnClickListener {
             intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${rxData.phoneNumber}"))
