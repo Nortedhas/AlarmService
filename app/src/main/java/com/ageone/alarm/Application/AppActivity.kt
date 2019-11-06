@@ -2,6 +2,7 @@ package com.ageone.alarm.Application
 
 import android.Manifest
 import android.app.Activity
+import android.app.Application
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -17,6 +18,7 @@ import timber.log.Timber
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import androidx.legacy.content.WakefulBroadcastReceiver
+import com.ageone.alarm.Application.Service.AlarmService
 import com.ageone.alarm.R
 import com.ageone.alarm.SCAG.DataBase
 import com.github.kittinunf.fuel.core.FuelManager
@@ -37,8 +39,10 @@ class AppActivity: BaseActivity() {
     var locationRequest: LocationRequest? = null
     var locationCallback: LocationCallback? = null
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
+        intent = Intent(this,AlarmService::class.java)
         //only vertical mode
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
@@ -74,7 +78,8 @@ class AppActivity: BaseActivity() {
 
         }.then {
             api.handshake {
-                webSocket.initialize()
+                startService(intent)
+                //webSocket.initialize()
                 coordinator.start()
             }
         }

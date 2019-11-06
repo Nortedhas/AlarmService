@@ -46,6 +46,9 @@
                 </intent-filter>
             </service>
 
+            <service android:name=".Application.Service.AlarmService">
+            </service>
+
         </application>
 
 </manifest>
