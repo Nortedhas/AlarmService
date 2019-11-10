@@ -26,7 +26,7 @@ class WebSocket {
             val body = JSONObject()
             body.put("token", utils.variable.token)
             socket.emit("registration", body)
-
+            Timber.i("Websocket initialize")
             subscribeAlarm()
         } catch (e: Exception) {
             Timber.e("Socket connect error: ${e.message}")

@@ -21,14 +21,11 @@ class FTActivityLifecycleCallbacks: Application.ActivityLifecycleCallbacks {
 
     override fun onActivityStarted(activity: Activity?) {
         currentActivity = activity
-        currentActivity = activity
         intent = Intent(activity, MusicService::class.java)
         activity?.startService(intent)
     }
 
     override fun onActivityDestroyed(activity: Activity?) {
-        intent = Intent(activity, AlarmService::class.java)
-        activity?.startService(intent)
     }
 
     override fun onActivitySaveInstanceState(activity: Activity?, outState: Bundle?) {
