@@ -88,7 +88,6 @@ dependencies {
 
     implementation 'com.github.kenglxn.QRGen:android:2.6.0'                 //QR code
 
-    implementation "androidx.work:work-runtime-ktx:2.2.0"
 }
 
 
