@@ -3,6 +3,7 @@ package com.ageone.alarm.Application
 import android.Manifest
 import android.app.Activity
 import android.app.Application
+import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -16,9 +17,12 @@ import com.ageone.alarm.Models.User.user
 import com.swarmnyc.promisekt.Promise
 import timber.log.Timber
 import android.content.pm.PackageManager
+import android.os.Build
 import androidx.core.app.ActivityCompat
 import androidx.legacy.content.WakefulBroadcastReceiver
 import com.ageone.alarm.Application.Service.AlarmService
+import com.ageone.alarm.Application.Service.ServiceState
+import com.ageone.alarm.Application.Service.getServiceState
 import com.ageone.alarm.R
 import com.ageone.alarm.SCAG.DataBase
 import com.github.kittinunf.fuel.core.FuelManager
@@ -79,8 +83,9 @@ class AppActivity: BaseActivity() {
 
         }.then {
             api.handshake {
-                startService(intent)
-                //webSocket.initialize()
+
+                actionOnService(AlarmService.Actions.START)
+
                 coordinator.start()
             }
         }
@@ -150,6 +155,19 @@ fun verifyStoragePermissions(activity: Activity) {
             PERMISSIONS_STORAGE,
             REQUEST_EXTERNAL_STORAGE
         )
+    }
+}
+
+private fun actionOnService(action: AlarmService.Actions) {
+    Intent(currentActivity?.applicationContext, AlarmService::class.java).also {
+        it.action = action.name
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Timber.i("Starting the service in >=26 Mode")
+            currentActivity?.startForegroundService(it)
+            return
+        }
+        Timber.i("Starting the service in < 26 Mode")
+        currentActivity?.startService(it)
     }
 }
 

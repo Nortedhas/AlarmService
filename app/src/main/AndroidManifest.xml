@@ -48,8 +48,7 @@
             </service>
 
             <service android:name=".Application.Service.AlarmService"
-                android:exported="false"
-                android:enabled="true">
+                >
             </service>
 
             <service android:name=".Application.Service.MusicService">
