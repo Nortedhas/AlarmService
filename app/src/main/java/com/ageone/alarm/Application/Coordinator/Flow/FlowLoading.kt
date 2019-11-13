@@ -59,7 +59,7 @@ class FlowLoading: BaseFlow() {
         var modelLoading = LoadingModel()
     }
 
-    //main load, parsing, socket
+    //main load, parsing, mySocket
 
     fun runModuleLoading() {
         Timber.i("Bottom Run module loading")

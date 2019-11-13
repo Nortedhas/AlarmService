@@ -36,6 +36,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.io.BufferedReader
+import java.io.IOException
+import java.io.InputStreamReader
+import java.io.PrintWriter
+import java.net.Socket
 
 
 class AppActivity: BaseActivity() {
@@ -82,12 +87,13 @@ class AppActivity: BaseActivity() {
             }
 
         }.then {
-            api.handshake {
+            startService(intent)
 
-                actionOnService(AlarmService.Actions.START)
+            coordinator.start()
 
-                coordinator.start()
-            }
+//            api.handshake {
+//
+//            }
         }
 
         setContentView(router.layout)
@@ -158,7 +164,7 @@ fun verifyStoragePermissions(activity: Activity) {
     }
 }
 
-private fun actionOnService(action: AlarmService.Actions) {
+/*private fun actionOnService(action: AlarmService.Actions) {
     Intent(currentActivity?.applicationContext, AlarmService::class.java).also {
         it.action = action.name
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -169,7 +175,7 @@ private fun actionOnService(action: AlarmService.Actions) {
         Timber.i("Starting the service in < 26 Mode")
         currentActivity?.startService(it)
     }
-}
+}*/
 
 class OnBootBroadcastReceiver : BroadcastReceiver(){
     override fun onReceive(p0: Context?, p1: Intent?) {
