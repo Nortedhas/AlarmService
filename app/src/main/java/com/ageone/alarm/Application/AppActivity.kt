@@ -87,13 +87,12 @@ class AppActivity: BaseActivity() {
             }
 
         }.then {
-            startService(intent)
 
-            coordinator.start()
+            api.handshake {
 
-//            api.handshake {
-//
-//            }
+                startService(intent)
+                coordinator.start()
+            }
         }
 
         setContentView(router.layout)

@@ -30,7 +30,6 @@ class AlarmService : Service() {
 
     var isConnect = false
     var uuid = if (user.hashId.isNotBlank()) user.hashId else UUID.randomUUID().toString()
-    val token = utils.variable.token
 
     override fun onBind(intent: Intent): IBinder? {
         return null
@@ -38,6 +37,7 @@ class AlarmService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
+        //start in thread for infinite work
         val thread = Thread(Runnable {
             handshake {
                 initialize()
@@ -50,11 +50,16 @@ class AlarmService : Service() {
         return START_STICKY
     }
 
-    fun handshake(completion: () -> Unit){
+    //for connect to server we need token
+    fun handshake(completion: () -> Unit) { //TODO: handshake only on destroy service
         Fuel.post("http://176.119.157.149/handshake")
-            .jsonBody(API().createBody(mapOf(
-                "deviceId" to uuid
-            )).toString())
+            .jsonBody(
+                API().createBody(
+                    mapOf(
+                        "deviceId" to uuid
+                    )
+                ).toString()
+            )
             .responseString { request, response, result ->
                 Timber.i("API Handshake: $request $response")
 
@@ -76,18 +81,19 @@ class AlarmService : Service() {
         Timber.i("Service destroyed")
     }
 
+    //start socket
     fun initialize() {
         val options = IO.Options()
         options.forceNew = true
         options.reconnection = true
-        if(isConnect){
+        if (isConnect) {
             return
         } else {
             try {
                 mySocket = IO.socket("http://176.119.157.149:80", options)
                 mySocket.connect()
 
-
+                //onConnect listener
                 mySocket.on(Socket.EVENT_CONNECT) {
                     Timber.i("Socket connected :${mySocket.connected()}")
 
@@ -96,7 +102,7 @@ class AlarmService : Service() {
                     mySocket.emit("registration", body)
                     isConnect = true
                 }
-
+                //on Disconnect listener
                 mySocket.on(Socket.EVENT_DISCONNECT) {
                     Timber.i("Socket connected :${mySocket.connected()}")
                     isConnect = false
@@ -107,51 +113,27 @@ class AlarmService : Service() {
         }
     }
 
+    //listener for emit from server
     private fun subscribeAlarm() {
         mySocket.on("alert") { message ->
 
             var json = message[0] as JSONObject
 
-            rxData.phoneNumber = json.optString("phone","")
-            rxData.userName = json.optString("name","")
-            rxData.alarmInfo = json.optString("info","")
+            rxData.phoneNumber = json.optString("phone", "") //TODO: update UI when app in foreground
+            rxData.userName = json.optString("name", "")
+            rxData.alarmInfo = json.optString("info", "")
 
             Timber.i("message : ${message[0]}")
 
-            intent = Intent("android.intent.category.LAUNCHER")
-            intent.setClassName("com.ageone.alarm", "com.ageone.alarm.Application.AppActivity")
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-
+            //need new intent, because intent in Application is null
+            val intent = Intent(this, AppActivity::class.java)
+            intent.action = Intent.ACTION_MAIN
+            intent.addCategory(Intent.CATEGORY_LAUNCHER)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            //start activity in UI thread. Initialize view on in Main thread
             GlobalScope.launch(Dispatchers.Main) {
-                user.isAuthorized = true
-                router.layout.removeAllViewsInLayout()
-                currentActivity?.startActivity(intent)
-                coordinator.runFlowAuth()
+                startActivity(intent)
             }
         }
     }
-//
-//    fun run(host: String, port: Int){
-//        try{
-//            val socket = Socket(host, port)
-//            val input = BufferedReader(InputStreamReader(socket.getInputStream()))
-//
-//            val message = "alert"
-//            val out = socket.getOutputStream()
-//            val print = PrintWriter(out)
-//            print.flush()
-//
-//            while(true) {
-//                out.write((message + '\n').toByteArray(Charset.defaultCharset()))
-//                out.flush()
-//                    var result = input.readLine() ?: ""
-//                    Timber.i("Result : $result")
-//            }
-//        }catch (e: IOException) {
-//            e.printStackTrace()
-//        }
-//    }
-//
-//    private fun write(message: String) {
-//    }
 }
