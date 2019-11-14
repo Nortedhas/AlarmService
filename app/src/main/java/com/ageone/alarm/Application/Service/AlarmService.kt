@@ -20,8 +20,6 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import timber.log.Timber
-import java.io.*
-import java.nio.charset.Charset
 import java.util.*
 
 class AlarmService : Service() {
@@ -39,7 +37,13 @@ class AlarmService : Service() {
 
         //start in thread for infinite work
         val thread = Thread(Runnable {
-            handshake {
+
+            if(utils.variable.token.isNullOrBlank()) {
+                handshake {
+                    initialize()
+                    subscribeAlarm()
+                }
+            } else {
                 initialize()
                 subscribeAlarm()
             }
@@ -51,7 +55,7 @@ class AlarmService : Service() {
     }
 
     //for connect to server we need token
-    fun handshake(completion: () -> Unit) { //TODO: handshake only on destroy service
+    fun handshake(completion: () -> Unit) {
         Fuel.post("http://176.119.157.149/handshake")
             .jsonBody(
                 API().createBody(

@@ -26,6 +26,9 @@ import com.ageone.alarm.R
 import com.example.ageone.Modules.Android6.rows.Android6CardViewHolder
 import com.example.ageone.Modules.Android6.rows.Android6TextViewHolder
 import com.example.ageone.Modules.Android6.rows.initialize
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import yummypets.com.stevia.*
 
@@ -51,8 +54,6 @@ class Android6View(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(ini
         viewAdapter
     }
 
-    var mediaPlayer: MediaPlayer? = null
-
     init {
 //        viewModel.loadRealmData()
 
@@ -72,11 +73,13 @@ class Android6View(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(ini
     }
 
     fun bindUI() {
-        /*compositeDisposable.add(
+        compositeDisposable.add(
             RxBus.listen(RxEvent.EventChangePhoneNumber::class.java).subscribe { phoneNumber->
-
+                GlobalScope.launch(Dispatchers.Main) {
+                    bodyTable.adapter?.notifyDataSetChanged()
+                }
             }
-        )*/
+        )
     }
 
     inner class Factory(val rootModule: BaseModule) : BaseAdapter<BaseViewHolder>() {
@@ -136,7 +139,6 @@ class Android6View(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(ini
 }
 
 fun Android6View.renderUIO() {
-
 
     innerContent.subviews(
         bodyTable,
