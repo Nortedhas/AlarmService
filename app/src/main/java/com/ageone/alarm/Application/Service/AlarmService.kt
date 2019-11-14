@@ -13,8 +13,8 @@ import com.ageone.alarm.Models.User.user
 import com.ageone.alarm.SCAG.userData
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.extensions.jsonBody
-import com.github.nkzawa.socketio.client.IO
-import com.github.nkzawa.socketio.client.Socket
+import io.socket.client.IO
+import io.socket.client.Socket
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

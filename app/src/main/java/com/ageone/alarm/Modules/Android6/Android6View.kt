@@ -80,6 +80,21 @@ class Android6View(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(ini
                 }
             }
         )
+        compositeDisposable.add(
+            RxBus.listen(RxEvent.EventChangeUserName::class.java).subscribe{ userName ->
+                GlobalScope.launch(Dispatchers.Main) {
+                    bodyTable.adapter?.notifyDataSetChanged()
+                }
+            }
+        )
+
+        compositeDisposable.add(
+            RxBus.listen(RxEvent.EventChangeAlarmInfo::class.java).subscribe{ alarmInfo->
+                GlobalScope.launch(Dispatchers.Main) {
+                    bodyTable.adapter?.notifyDataSetChanged()
+                }
+            }
+        )
     }
 
     inner class Factory(val rootModule: BaseModule) : BaseAdapter<BaseViewHolder>() {

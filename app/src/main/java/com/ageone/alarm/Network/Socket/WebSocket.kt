@@ -3,16 +3,9 @@ package com.ageone.alarm.Network.Socket
 import android.content.Intent
 import com.ageone.alarm.Application.*
 import com.ageone.alarm.Application.Coordinator.Flow.runFlowAuth
-import com.ageone.alarm.External.HTTP.API.API
-import com.ageone.alarm.External.HTTP.API.Routes
-import com.ageone.alarm.External.HTTP.API.uuid
 import com.ageone.alarm.Models.User.user
-import com.ageone.alarm.SCAG.userData
-import com.example.ageone.Modules.Android6.Android6View
-import com.github.kittinunf.fuel.Fuel
-import com.github.kittinunf.fuel.core.extensions.jsonBody
-import com.github.nkzawa.socketio.client.IO
-import com.github.nkzawa.socketio.client.Socket
+import io.socket.client.IO
+import io.socket.client.Socket
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -23,8 +16,6 @@ import java.util.*
 class WebSocket {
 
     lateinit var socket: Socket
-
-
 
 
     fun initialize() {
