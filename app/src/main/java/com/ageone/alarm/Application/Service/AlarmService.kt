@@ -3,6 +3,7 @@ package com.ageone.alarm.Application.Service
 
 import android.app.*
 import android.content.Intent
+import android.os.Handler
 import android.os.IBinder
 import android.provider.Settings
 import com.ageone.alarm.Application.*
@@ -60,7 +61,7 @@ class AlarmService : Service() {
             .jsonBody(
                 API().createBody(
                     mapOf(
-                        "deviceId" to Settings.Secure.getString(currentActivity?.contentResolver, Settings.Secure.ANDROID_ID)
+                        "deviceId" to Settings.Secure.getString(this.contentResolver, Settings.Secure.ANDROID_ID)
                     )
                 ).toString()
             )
@@ -130,13 +131,19 @@ class AlarmService : Service() {
             Timber.i("message : ${message[0]}")
 
             //need new intent, because intent in Application is null
-            val intent = Intent(this, AppActivity::class.java)
+            intent = Intent(this, AppActivity::class.java)
+            intent.setClassName("com.ageone.alarm", "com.ageone.alarm.Application.AppActivity")
             intent.action = Intent.ACTION_MAIN
             intent.addCategory(Intent.CATEGORY_LAUNCHER)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+
             //start activity in UI thread. Initialize view on in Main thread
             GlobalScope.launch(Dispatchers.Main) {
+                user.isAuthorized = true
                 startActivity(intent)
+                intent = Intent(this@AlarmService, MusicService::class.java)
+                stopService(intent)
+                Handler().postDelayed({startService(intent)},1000)
             }
         }
     }

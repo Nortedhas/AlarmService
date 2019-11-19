@@ -8,11 +8,13 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.Handler
 import android.util.TypedValue
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.core.app.ActivityCompat
 import com.ageone.alarm.Application.Service.AlarmService
+import com.ageone.alarm.Application.Service.MusicService
 import com.ageone.alarm.External.Base.Activity.BaseActivity
 import com.ageone.alarm.Models.User.user
 import com.ageone.alarm.R
@@ -99,6 +101,18 @@ class AppActivity: BaseActivity() {
         router.onBackPressed()
     }
 
+
+    override fun onDestroy() {
+        super.onDestroy()
+        intent = Intent(currentActivity, AlarmService::class.java)
+        startService(intent)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        intent = Intent(currentActivity, MusicService::class.java)
+        stopService(intent)
+    }
 }
 
 fun Activity.hideKeyboard() {

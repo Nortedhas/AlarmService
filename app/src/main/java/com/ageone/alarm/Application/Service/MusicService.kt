@@ -4,6 +4,7 @@ import android.app.Service
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.IBinder
+import com.ageone.alarm.Application.AppActivity
 import com.ageone.alarm.Application.currentActivity
 import com.ageone.alarm.R
 
@@ -15,7 +16,7 @@ class MusicService : Service(){
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        mediaPlayer = MediaPlayer.create(currentActivity?.applicationContext, R.raw.soad)
+        mediaPlayer = MediaPlayer.create(this, R.raw.soad)
         mediaPlayer?.start()
         return Service.START_STICKY
     }

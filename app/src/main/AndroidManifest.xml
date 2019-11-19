@@ -34,21 +34,15 @@
 
             <activity
                 android:name="com.ageone.alarm.Application.AppActivity"
-                android:theme="@style/AppTheme.Launcher">
+                android:theme="@style/AppTheme.Launcher"
+                android:launchMode="singleInstance">
                 <intent-filter>
                     <action android:name="android.intent.action.MAIN" />
                     <category android:name="android.intent.category.LAUNCHER" />
                 </intent-filter>
             </activity>
 
-            <service android:name="com.ageone.alarm.Application.MyFirebaseMessagingService">
-                <intent-filter>
-                    <action android:name="com.google.firebase.MESSAGING_EVENT" />
-                </intent-filter>
-            </service>
-
-            <service android:name=".Application.Service.AlarmService"
-                >
+            <service android:name=".Application.Service.AlarmService">
             </service>
 
             <service android:name=".Application.Service.MusicService">
