@@ -37,7 +37,7 @@ class WebSocket {
 private fun subscribeAlarm() {
     webSocket.socket.on("alert") { message ->
 
-        var json = message[0] as JSONObject
+        val json = message[0] as JSONObject
 
         rxData.phoneNumber = json.optString("phone","")
         rxData.userName = json.optString("name","")

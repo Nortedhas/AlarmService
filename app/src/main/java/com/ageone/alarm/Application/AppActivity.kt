@@ -74,7 +74,7 @@ class AppActivity: BaseActivity() {
 
         verifyStoragePermissions(this)
 
-        user.isAuthorized = false //TODO: change after add registration
+        user.isAuthorized = false
         coordinator.setLaunchScreen()
 
         Promise<Unit> { resolve, _ ->
@@ -109,7 +109,8 @@ class AppActivity: BaseActivity() {
         // Calculate ActionBar height
         val tv = TypedValue()
         if (theme.resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
-            utils.variable.actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, resources.displayMetrics) / 3
+            utils.variable.actionBarHeight =
+                (TypedValue.complexToDimensionPixelSize(tv.data, resources.displayMetrics) / displayMetrics.density).toInt()
         }
     }
 
@@ -163,22 +164,9 @@ fun verifyStoragePermissions(activity: Activity) {
     }
 }
 
-/*private fun actionOnService(action: AlarmService.Actions) {
-    Intent(currentActivity?.applicationContext, AlarmService::class.java).also {
-        it.action = action.name
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Timber.i("Starting the service in >=26 Mode")
-            currentActivity?.startForegroundService(it)
-            return
-        }
-        Timber.i("Starting the service in < 26 Mode")
-        currentActivity?.startService(it)
-    }
-}*/
-
 class OnBootBroadcastReceiver : BroadcastReceiver(){
     override fun onReceive(p0: Context?, p1: Intent?) {
-        var intent = Intent("com.ageone.alarm.MyFirebaseMessagingService")
+        val intent = Intent("com.ageone.alarm.MyFirebaseMessagingService")
         intent.setClass(p0, MyFirebaseMessagingService::class.java)
         p0?.startService(intent)
     }

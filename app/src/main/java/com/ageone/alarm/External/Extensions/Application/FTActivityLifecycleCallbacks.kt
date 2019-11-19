@@ -22,6 +22,7 @@ class FTActivityLifecycleCallbacks: Application.ActivityLifecycleCallbacks {
 
     override fun onActivityStarted(activity: Activity?) {
         currentActivity = activity
+
         intent = Intent(activity, MusicService::class.java)
         activity?.stopService(intent)
         Handler().postDelayed({activity?.startService(intent)},1000)

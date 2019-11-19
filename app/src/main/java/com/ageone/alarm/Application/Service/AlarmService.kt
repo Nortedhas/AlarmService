@@ -4,6 +4,7 @@ package com.ageone.alarm.Application.Service
 import android.app.*
 import android.content.Intent
 import android.os.IBinder
+import android.provider.Settings
 import com.ageone.alarm.Application.*
 import com.ageone.alarm.Application.Coordinator.Flow.runFlowAuth
 import com.ageone.alarm.External.HTTP.API.API
@@ -27,7 +28,6 @@ class AlarmService : Service() {
     lateinit var mySocket: Socket
 
     var isConnect = false
-    var uuid = if (user.hashId.isNotBlank()) user.hashId else UUID.randomUUID().toString()
 
     override fun onBind(intent: Intent): IBinder? {
         return null
@@ -60,7 +60,7 @@ class AlarmService : Service() {
             .jsonBody(
                 API().createBody(
                     mapOf(
-                        "deviceId" to uuid
+                        "deviceId" to Settings.Secure.getString(currentActivity?.contentResolver, Settings.Secure.ANDROID_ID)
                     )
                 ).toString()
             )
@@ -123,7 +123,7 @@ class AlarmService : Service() {
 
             var json = message[0] as JSONObject
 
-            rxData.phoneNumber = json.optString("phone", "") //TODO: update UI when app in foreground
+            rxData.phoneNumber = json.optString("phone", "")
             rxData.userName = json.optString("name", "")
             rxData.alarmInfo = json.optString("info", "")
 
