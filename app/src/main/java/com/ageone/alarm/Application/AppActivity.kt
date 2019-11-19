@@ -2,45 +2,26 @@ package com.ageone.alarm.Application
 
 import android.Manifest
 import android.app.Activity
-import android.app.Application
-import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.core.app.ActivityCompat
+import com.ageone.alarm.Application.Service.AlarmService
 import com.ageone.alarm.External.Base.Activity.BaseActivity
 import com.ageone.alarm.Models.User.user
-import com.swarmnyc.promisekt.Promise
-import timber.log.Timber
-import android.content.pm.PackageManager
-import android.os.Build
-import androidx.core.app.ActivityCompat
-import androidx.legacy.content.WakefulBroadcastReceiver
-import com.ageone.alarm.Application.Service.AlarmService
-import com.ageone.alarm.Application.Service.ServiceState
-import com.ageone.alarm.Application.Service.getServiceState
 import com.ageone.alarm.R
-import com.ageone.alarm.SCAG.DataBase
 import com.github.kittinunf.fuel.core.FuelManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.iid.FirebaseInstanceId
-import com.google.firebase.messaging.RemoteMessage
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.InputStreamReader
-import java.io.PrintWriter
-import java.net.Socket
+import com.swarmnyc.promisekt.Promise
+import timber.log.Timber
 
 
 class AppActivity: BaseActivity() {
@@ -52,7 +33,8 @@ class AppActivity: BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        intent = Intent(this,AlarmService::class.java)
+        intent = Intent(this, AlarmService::class.java)
+
         //only vertical mode
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
@@ -67,8 +49,6 @@ class AppActivity: BaseActivity() {
                             View.SYSTEM_UI_FLAG_LAYOUT_STABLE
 
         setDisplaySize()
-
-
 
         FuelManager.instance.basePath = "http://176.119.157.149/"
 
@@ -161,13 +141,5 @@ fun verifyStoragePermissions(activity: Activity) {
             PERMISSIONS_STORAGE,
             REQUEST_EXTERNAL_STORAGE
         )
-    }
-}
-
-class OnBootBroadcastReceiver : BroadcastReceiver(){
-    override fun onReceive(p0: Context?, p1: Intent?) {
-        val intent = Intent("com.ageone.alarm.MyFirebaseMessagingService")
-        intent.setClass(p0, MyFirebaseMessagingService::class.java)
-        p0?.startService(intent)
     }
 }
