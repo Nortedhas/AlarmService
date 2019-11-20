@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.TypedValue
@@ -72,7 +73,11 @@ class AppActivity: BaseActivity() {
 
             api.handshake {
 
-                startService(intent)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    startForegroundService(intent)
+                } else {
+                    startService(intent)
+                }
                 coordinator.start()
             }
         }
@@ -105,7 +110,11 @@ class AppActivity: BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         intent = Intent(currentActivity, AlarmService::class.java)
-        startService(intent)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(intent)
+        } else {
+            startService(intent)
+        }
         intent = Intent(currentActivity, MusicService::class.java)
         stopService(intent)
     }

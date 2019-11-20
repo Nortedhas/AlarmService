@@ -3,6 +3,7 @@ package com.ageone.alarm.Application.Service
 
 import android.app.*
 import android.content.Intent
+import android.os.Build
 import android.os.Handler
 import android.os.IBinder
 import android.provider.Settings
@@ -146,7 +147,13 @@ class AlarmService : Service() {
                 startActivity(intent)
                 intent = Intent(this@AlarmService, MusicService::class.java)
                 stopService(intent)
-                Handler().postDelayed({startService(intent)},1000)
+                Handler().postDelayed({
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        startForegroundService(intent)
+                    } else {
+                        startService(intent)
+                    }
+                },1000)
             }
         }
     }
