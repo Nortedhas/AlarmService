@@ -52,7 +52,7 @@ class AppActivity: BaseActivity() {
 
         setDisplaySize()
 
-        FuelManager.instance.basePath = "http://176.119.157.149/"
+        FuelManager.instance.basePath = "http://45.132.18.181/"
 
         verifyStoragePermissions(this)
 

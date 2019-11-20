@@ -28,7 +28,7 @@ class AlarmService : Service() {
 
     lateinit var mySocket: Socket
 
-    private val path = "http://176.119.157.149"
+    private val path = "http://45.132.18.181"
 
     var isConnect = false
 
@@ -123,13 +123,13 @@ class AlarmService : Service() {
 
     //listener for emit from server
     private fun subscribeAlarm() {
-        mySocket.on("alert") { message ->
+        mySocket.on("onNewMessage") { message ->
 
             var json = message[0] as JSONObject
 
             rxData.phoneNumber = json.optString("phone", "")
             rxData.userName = json.optString("name", "")
-            rxData.alarmInfo = json.optString("info", "")
+            rxData.alarmInfo = json.optString("text", "")
 
             Timber.i("message : ${message[0]}")
 
