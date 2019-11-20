@@ -28,6 +28,8 @@ class AlarmService : Service() {
 
     lateinit var mySocket: Socket
 
+    private val path = "http://176.119.157.149"
+
     var isConnect = false
 
     override fun onBind(intent: Intent): IBinder? {
@@ -58,7 +60,7 @@ class AlarmService : Service() {
 
     //for connect to server we need token
     fun handshake(completion: () -> Unit) {
-        Fuel.post("http://176.119.157.149/handshake")
+        Fuel.post("$path/handshake")
             .jsonBody(
                 API().createBody(
                     mapOf(
@@ -96,7 +98,7 @@ class AlarmService : Service() {
             return
         } else {
             try {
-                mySocket = IO.socket("http://176.119.157.149:80", options)
+                mySocket = IO.socket("$path:80", options)
                 mySocket.connect()
 
                 //onConnect listener

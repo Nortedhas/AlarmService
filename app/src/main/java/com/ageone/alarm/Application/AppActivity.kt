@@ -106,6 +106,8 @@ class AppActivity: BaseActivity() {
         super.onDestroy()
         intent = Intent(currentActivity, AlarmService::class.java)
         startService(intent)
+        intent = Intent(currentActivity, MusicService::class.java)
+        stopService(intent)
     }
 
     override fun onStop() {
