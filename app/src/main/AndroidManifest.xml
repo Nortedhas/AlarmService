@@ -34,8 +34,7 @@
 
             <activity
                 android:name="com.ageone.alarm.Application.AppActivity"
-                android:theme="@style/AppTheme.Launcher"
-                android:launchMode="singleInstance">
+                android:theme="@style/AppTheme.Launcher">
                 <intent-filter>
                     <action android:name="android.intent.action.MAIN" />
                     <category android:name="android.intent.category.LAUNCHER" />

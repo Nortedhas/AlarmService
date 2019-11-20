@@ -36,6 +36,7 @@ class AlarmService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
+        Timber.i("StartService")
         //start in thread for infinite work
         val thread = Thread(Runnable {
 
